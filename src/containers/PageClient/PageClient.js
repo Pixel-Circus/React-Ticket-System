@@ -1,8 +1,13 @@
 import React from 'react';
 
-const PageClient = () => {
+//import axios from 'axios';
+//import variables from "./../../variables";
+
+const PageClient = (props) => {
+    const {code} = props;
+    
     return (
-        <div>Client</div>
+        <div className="Container">Client {code}</div>
     )
 }
 
