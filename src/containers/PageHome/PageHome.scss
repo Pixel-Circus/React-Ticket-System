@@ -1,0 +1,6 @@
+.PageHome{
+    h1{text-align:center;}
+    form{display:flex;justify-content: space-between;}
+    input[type="text"]{max-width:calc(75% - 20px);}
+    input[type="submit"]{max-width:25%;}
+}
