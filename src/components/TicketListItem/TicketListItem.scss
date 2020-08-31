@@ -1,0 +1,38 @@
+.OuterTicketListItem {
+  text-decoration: none;
+}
+.TicketListItem {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 14px;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+  text-decoration: none;
+  transition: 0.3s all ease-out;
+  &:hover {
+    background: #eee;
+  }
+  > div {
+    padding: 10px;
+    box-sizing: border-box;
+    &.title {
+      width: calc(100% - 440px);
+    }
+    &.date {
+      width: 170px;
+    }
+    &.categ {
+      width: 100px;
+    }
+  }
+  .OuterTicketListItem.is-title & {
+    font-weight: 700;
+    font-size: 12px;
+    &:hover {
+      background: transparent;
+    }
+  }
+}

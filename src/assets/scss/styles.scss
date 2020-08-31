@@ -1,24 +1,38 @@
-.App{padding:30px 0;}
-.Container{
-    max-width:800px;
-    margin:0 auto;
-    width:100%;
+.App {
+  padding: 30px 0;
 }
-input{
-    width:100%;
-    height:50px;
-    padding:0 20px;
-    box-sizing: border-box;
+.Container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 }
-.notice{
-    border:1px solid #ccc;
-    background:#eee;
-    padding:10px;
-    margin-bottom:20px;
-    font-size:12px;
-    &.is-error{
-        border-color:#f33;
-        background:#fdd;
-        color:#f33;
-    }
+input {
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.notice {
+  border: 1px solid #ccc;
+  background: #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  &.is-error {
+    border-color: #f33;
+    background: #fdd;
+    color: #f33;
+  }
+}
+.Button {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  text-decoration: none;
 }

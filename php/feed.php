@@ -18,19 +18,19 @@ if(isset($_GET['usercheck'])){
 }
 
 if(isset($_GET['listticketsclient'])){
-    $sql = "SELECT * FROM `tickets` WHERE `client` LIKE '".$_GET['listticketsclient']."' ORDER BY `categorie` DESC, `date_modif` DESC";
+    $sql = "SELECT * FROM `ticket` WHERE `client` LIKE '".$_GET['listticketsclient']."' ORDER BY `categorie` ASC, `date_modif` DESC";
 }
 
 if(isset($_GET['listticketsuser'])){
-    $sql = "SELECT * FROM `tickets` WHERE `assigne` LIKE '".$_GET['listticketsuser']."' ORDER BY `categorie` DESC, `date_modif` DESC";
+    $sql = "SELECT * FROM `ticket` WHERE `assigne` LIKE '".$_GET['listticketsuser']."' ORDER BY `categorie` DESC, `date_modif` DESC";
 }
 
 if(isset($_GET['listticketsall'])){
-    $sql = "SELECT * FROM `tickets` ORDER BY `categorie` DESC, `date_modif` DESC";
+    $sql = "SELECT * FROM `ticket` ORDER BY `categorie` DESC, `date_modif` DESC";
 }
 
 if(isset($_GET['getticketinfo'])){
-    $sql = "SELECT * FROM `tickets` WHERE `code` LIKE '".$_GET['getticketinfo']."' LIMIT 1";
+    $sql = "SELECT * FROM `ticket` WHERE `code` LIKE '".$_GET['getticketinfo']."' LIMIT 1";
 }
 
 $result = $conn->query($sql);

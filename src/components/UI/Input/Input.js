@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 // Style
 import classes from "./Input.css";
+import { Editor } from "@tinymce/tinymce-react";
 
 const input = (props) => {
   let inputElement = null;
