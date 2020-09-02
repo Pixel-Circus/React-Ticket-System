@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 // Style
-import classes from "./Input.css";
+import classes from "./Input.scss";
 import { Editor } from "@tinymce/tinymce-react";
 
 const input = (props) => {
@@ -15,7 +15,7 @@ const input = (props) => {
   switch (props.elementType) {
     case "input":
       inputElement = (
-        <div className={classes.Input}>
+        <div className={"Input " + classes.Input}>
           <label className={classes.Label}>{props.label}</label>
           <input
             className={inputClasses.join(" ")}
@@ -28,7 +28,7 @@ const input = (props) => {
       break;
     case "textarea":
       inputElement = (
-        <div className={classes.Input}>
+        <div className={"Input " + classes.Input}>
           <label className={classes.Label}>{props.label}</label>
           <textarea
             className={inputClasses.join(" ")}
@@ -55,15 +55,16 @@ const input = (props) => {
             label: option.displayValue,
           });
         }
+        return false;
       });
       inputElement = (
-        <div className={classes.Input}>
+        <div className={"Input " + classes.Input}>
           <label className={classes.Label}>{props.label}</label>
           <Select
             className={inputClasses.join(" ")}
             options={sanitizedOptions}
-            isMulti
             onChange={props.changed}
+            {...props.elementConfig}
           >
             {/*props.elementConfig.options.map((option) => (
               <option
@@ -78,7 +79,7 @@ const input = (props) => {
       break;
     case "checkbox":
       inputElement = (
-        <div className={classes.Input}>
+        <div className={"Input " + classes.Input}>
           <label>
             <input
               type="checkbox"
@@ -89,6 +90,36 @@ const input = (props) => {
             />
             {props.label}
           </label>
+        </div>
+      );
+      break;
+    case "wysiwyg":
+      inputElement = (
+        <div className={"Input " + classes.Input}>
+          <label>{props.label}</label>
+          <Editor
+            apiKey="1nnp243dek7309ia9k8n55ot1j5e3prw7kp4pb76tpro24sj"
+            initialValue={props.value}
+            init={{
+              height: 200,
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
+              ],
+              toolbar:
+                "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+            }}
+            onEditorChange={props.changed}
+          />
+        </div>
+      );
+      break;
+    case "submit":
+      inputElement = (
+        <div className={"Input " + classes.Input}>
+          <input type="submit" value={props.value} />
         </div>
       );
       break;

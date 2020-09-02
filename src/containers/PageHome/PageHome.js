@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 //import Input from './../../components/UI/Input/Input'
-
+import { navigate } from "@reach/router";
 import axios from "axios";
 import variables from "./../../variables";
 
@@ -9,9 +9,13 @@ import "./PageHome.scss";
 
 const PageHome = () => {
   const [clientcode, setClientCode] = useState("");
-  const [hasError, setHasError] = useState(
-    window.location.href.indexOf("codenotfound") !== -1
-  );
+  const [hasError, setHasError] = useState(() => {
+    if (window.location.href.indexOf("codenotfound") !== -1) {
+      return 1;
+    } else if (window.location.href.indexOf("errorcreation") !== -1) {
+      return 2;
+    }
+  });
   const redirectToClient = (event) => {
     console.log("test");
     //var clientcode = document.getElementById('clientcode').val();
@@ -23,10 +27,10 @@ const PageHome = () => {
           console.log(response.data.noresults);
           if (response.data.noresults) {
             console.log("No client");
-            setHasError(true);
+            setHasError(1);
           } else {
             console.log("test");
-            window.location = "/client/" + clientcode;
+            navigate("/client/" + clientcode);
           }
         })
         .catch((error) => {
@@ -41,8 +45,14 @@ const PageHome = () => {
     setClientCode(event.target.value);
   };
   const ErrorMessage = () => {
-    if (hasError) {
+    if (hasError === 1) {
       return <div className="notice is-error">Ce code client n'existe pas</div>;
+    } else if (hasError === 2) {
+      return (
+        <div className="notice is-error">
+          Impossible de créer un ticket sans code client.
+        </div>
+      );
     } else {
       return <div></div>;
     }

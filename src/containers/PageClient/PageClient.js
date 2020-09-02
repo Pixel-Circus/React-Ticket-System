@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import variables from "./../../variables";
 
 import TicketList from "./../../components/TicketList/TicketList.js";
@@ -20,7 +20,7 @@ const PageClient = (props) => {
           //console.log(response.data.noresults);
           if (response.data.noresults) {
             console.log("No client");
-            window.location = "/?codenotfound=" + code;
+            navigate("/?codenotfound=" + code);
           } else {
             setClientInfo(response.data.results);
             //console.log("test");
@@ -54,7 +54,7 @@ const PageClient = (props) => {
       <div className="Container PageClient">
         <h1>Client {clientInfo[0].nom}</h1>
         <TicketList tickets={clientTickets} />
-        <Link to="/ticket/create" className="Button">
+        <Link to={"/ticket/" + code + "/create"} className="Button">
           Créer
         </Link>
       </div>

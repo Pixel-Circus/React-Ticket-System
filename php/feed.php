@@ -14,7 +14,7 @@ if(isset($_GET['clientcheck'])){
 }
 
 if(isset($_GET['usercheck'])){
-    $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['usercheck']."'";
+    $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['usercheck']."' AND `actif` LIKE 1";
 }
 
 if(isset($_GET['listticketsclient'])){
@@ -31,6 +31,18 @@ if(isset($_GET['listticketsall'])){
 
 if(isset($_GET['getticketinfo'])){
     $sql = "SELECT * FROM `ticket` WHERE `code` LIKE '".$_GET['getticketinfo']."' LIMIT 1";
+}
+
+if(isset($_GET['fetch_categories'])){
+    $sql = "SELECT DISTINCT `categorie` FROM `ticket`";
+}
+
+if(isset($_GET['fetch_users'])){
+    $sql = "SELECT * FROM `users` WHERE `actif` LIKE 1";
+}
+
+if(isset($_GET['fetch_clients'])){
+    $sql = "SELECT * FROM `users`";
 }
 
 $result = $conn->query($sql);
