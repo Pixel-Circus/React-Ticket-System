@@ -116,10 +116,10 @@ const input = (props) => {
         </div>
       );
       break;
-    case "submit":
+    case "button":
       inputElement = (
         <div className={"Input " + classes.Input}>
-          <input type="submit" value={props.value} />
+          <input type="button" value={props.value} onClick={props.submit} />
         </div>
       );
       break;

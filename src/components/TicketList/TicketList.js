@@ -20,6 +20,7 @@ const TicketList = (props) => {
         date_modif={ticket.date_modif}
         categorie={ticket.categorie}
         //assigne={ticket.assigne}
+        client={ticket.client}
       />
     ));
   }

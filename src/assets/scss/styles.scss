@@ -23,6 +23,11 @@ input {
     background: #fdd;
     color: #f33;
   }
+  &.is-success {
+    border-color: #1a1;
+    background: #dfd;
+    color: #1a1;
+  }
 }
 .Button {
   background: #000;

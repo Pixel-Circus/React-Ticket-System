@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 import "./TicketListItem.scss";
 import variables from "./../../variables.js";
 const TicketListItem = (props) => {
-  const { code, titre, categorie, date_debut, date_modif } = props;
+  const { code, titre, categorie, date_debut, date_modif, client } = props;
   var categorieName = categorie;
   if (variables.categories[categorie]) {
     categorieName = variables.categories[categorie];
@@ -21,7 +21,7 @@ const TicketListItem = (props) => {
   if (code) {
     return (
       <Link
-        to={"/ticket/" + code}
+        to={"/ticket/" + client + "/" + code}
         className={"OuterTicketListItem is-categ-" + categorie}
       >
         <InnerListItem />

@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { navigate } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 
 import axios from "axios";
 import variables from "./../../variables";
 import Input from "./../../components/UI/Input/Input";
-import SelectCategory from "./../../components/UI/Selects/SelectCategory";
-import SelectUser from "./../../components/UI/Selects/SelectUser";
+import TicketInfo from "./../../components/TicketInfo/TicketInfo";
 
 //import { Editor } from "@tinymce/tinymce-react";
 import "./PageTicket.scss";
 
 const PageTicket = (props) => {
   const { ticketid, clientcode } = props;
-  const [ticketInfo, setTicketInfo] = useState();
+  const [trackTicketId, setTrackTicketId] = useState(ticketid);
+  const [ticketInfo, setTicketInfo] = useState("");
+  const [formLock, setFormLock] = useState(false);
+  const [formNotice, setFormNotice] = useState(0);
   useEffect(() => {
+    //console.log("effect");
+    //console.log(trackTicketId);
     if (!ticketInfo) {
-      if (ticketid !== "create") {
+      if (trackTicketId !== "create" && trackTicketId) {
         axios
-          .get(variables.phpfolder + "feed.php?getticketinfo=" + ticketid)
+          .get(variables.phpfolder + "feed.php?getticketinfo=" + trackTicketId)
           .then((response) => {
             //console.log(response.data.noresults);
             if (response.data.noresults) {
               console.log("No client");
-              navigate("/?ticketnotfound=" + ticketid);
+              navigate("/?ticketnotfound=" + trackTicketId);
             } else {
               //console.log(response.data.results[0]);
               setTicketInfo(response.data.results[0]);
@@ -71,45 +75,80 @@ const PageTicket = (props) => {
       }
     }
     //console.log("effect");
-  }, [ticketInfo, ticketid, clientcode]);
+  }, [ticketInfo, ticketid, clientcode, formNotice, trackTicketId]);
+  function handlerSubmit() {
+    /*console.log("push");
+    console.log(variables.phpfolder + "update_ticket.php");
+    console.log(ticketInfo);*/
+    setFormLock(1);
+    axios
+      .post(variables.phpfolder + "update_ticket.php", ticketInfo)
+      .then((response) => {
+        /* console.log("response");
+        console.log(response.data);*/
+        setTrackTicketId(response.data.code);
+        setFormLock(0);
+        setFormNotice(2);
+        setTicketInfo("");
+        window.scroll(0, 0);
+      })
+      .catch((error) => {
+        console.log("error");
+        console.log(error);
+        setFormNotice(1);
+        setFormLock(0);
+        window.scroll(0, 0);
+      });
+  }
   if (ticketInfo) {
-    //console.log(ticketInfo);
     var titrePage = "Création du ticket";
     if (ticketInfo.code !== "create") {
-      titrePage = "Modification du ticket " + ticketInfo.categorie;
+      titrePage = "Modification du ticket " + ticketInfo.code;
     }
+    var formClass = "";
+    if (formLock) {
+      formClass += " is-locked";
+    }
+    const ErrorMessage = () => {
+      if (formNotice === 1) {
+        return <div className="notice is-error">Une erreur est survenue</div>;
+      } else if (formNotice === 2) {
+        return (
+          <div className="notice is-success">
+            Vos modifications ont été sauvegardées
+          </div>
+        );
+      } else {
+        return <div></div>;
+      }
+    };
     return (
       <div className="PageTicket">
         <div className="Container">
           <h1>{titrePage}</h1>
-          <form>
-            <div class="Flex">
-              <div>
-                <SelectCategory currCateg={ticketInfo.categorie} />
-              </div>
-              <div>
-                <SelectUser currCateg={ticketInfo.assigne} />
-              </div>
-              <div class="">
-                <b>Soumis:</b>
-                <br />
-                {ticketInfo.date_debut ? ticketInfo.date_debut : "N/A"}
-              </div>
-              <div class="">
-                <b>Modification:</b>
-                <br />
-                {ticketInfo.date_modif ? ticketInfo.date_modif : "N/A"}
-              </div>
-            </div>
+          <Link to={"/client/" + clientcode + "/"}>Retour au client</Link>
+          <ErrorMessage />
+          <form className={"Form " + formClass}>
+            <TicketInfo
+              ticketInfo={ticketInfo}
+              categchange={(e) =>
+                setTicketInfo({ ...ticketInfo, categorie: e.value })
+              }
+              assignechange={(e) =>
+                setTicketInfo({ ...ticketInfo, assigne: e.value })
+              }
+              clientchange={(e) =>
+                setTicketInfo({ ...ticketInfo, client: e.value })
+              }
+            />
             <Input
               elementType="input"
               label="Titre"
               value={ticketInfo.titre}
               placeholder="Titre"
               changed={(e) => {
-                //console.log("x " + ticketInfo.titre);
-                ticketInfo.titre = e.target.value;
-                setTicketInfo(ticketInfo);
+                console.log(ticketInfo);
+                setTicketInfo({ ...ticketInfo, titre: e.target.value });
               }}
             />
             <Input
@@ -118,7 +157,7 @@ const PageTicket = (props) => {
               value={ticketInfo.description}
               changed={(content, editor) => {
                 ticketInfo.description = content;
-                console.log(ticketInfo);
+                //console.log(ticketInfo);
                 setTicketInfo(ticketInfo);
               }}
             />
@@ -136,13 +175,15 @@ const PageTicket = (props) => {
               label="Informations techniques (Modifier seulement si bogue sur un poste différent)"
               value={ticketInfo.technical}
               changed={(e) => {
-                //console.log("x " + ticketInfo.titre);
-                ticketInfo.technical = e.target.value;
-                setTicketInfo(ticketInfo);
+                setTicketInfo({ ...ticketInfo, technical: e.target.value });
               }}
             />
 
-            <Input elementType="submit" value="Soumettre" />
+            <Input
+              elementType="button"
+              value="Soumettre"
+              submit={handlerSubmit}
+            />
           </form>
         </div>
       </div>

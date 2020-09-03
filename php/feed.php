@@ -42,7 +42,7 @@ if(isset($_GET['fetch_users'])){
 }
 
 if(isset($_GET['fetch_clients'])){
-    $sql = "SELECT * FROM `users`";
+    $sql = "SELECT * FROM `clients`";
 }
 
 $result = $conn->query($sql);

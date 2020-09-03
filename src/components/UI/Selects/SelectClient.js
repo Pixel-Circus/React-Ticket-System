@@ -1,50 +1,60 @@
 import React, { useState, useEffect } from "react";
-//import axios from "axios";
+import axios from "axios";
 
 import { connect /*, useStore*/ } from "react-redux";
 import isAdmin from "./../../../actionCreator/isAdmin";
 import Input from "./../../../components/UI/Input/Input";
 import variables from "./../../../variables";
+import string_to_slug from "./../../../functions/string_to_slugs";
 
-const SelectCategory = (props) => {
+const SelectClient = (props) => {
   const { currCateg, isAdmin, change } = props;
   const [selectConfig, setSelectConfig] = useState();
   useEffect(() => {
     var { options, config } = "";
     //if (!selectConfig) {
     if (isAdmin) {
-      //console.log(variables.categories);
-      options = [];
-      var value = "";
-      Object.keys(variables.categories).map(function (key, index) {
-        //variables.categories.map(function (e, k) {
-        //console.log(key);
-        //console.log(index);
-        options.push({
-          value: key,
-          label: variables.categories[key],
-        });
-        if (key === currCateg) {
-          value = {
-            value: key,
-            label: variables.categories[key],
+      axios
+        .get(variables.phpfolder + "feed.php?fetch_clients=1")
+        .then((response) => {
+          //console.log(response.data.noresults);
+          //console.log(response.data.results);
+          var options = [];
+          var value = "";
+          response.data.results.map((e) => {
+            //console.log(e);
+            options.push({
+              value: e.code,
+              label: e.nom,
+            });
+            if (currCateg) {
+              if (string_to_slug(currCateg) === string_to_slug(e.code)) {
+                value = { value: e.code, label: e.nom };
+              }
+            }
+            return null;
+          });
+          var config = {
+            options: options,
+            value: value,
+            isClearable: true,
           };
-        }
-        return null;
-      });
-      config = {
-        options: options,
-        value: value,
-        isClearable: true,
-      };
-      setSelectConfig(config);
-      //return null;
+          //console.log(config);
+          setSelectConfig(config);
+          //console.log("test");
+          //window.location = "/client/" + code;
+          //return null;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       options = {
         value: currCateg,
         label: variables.categories[currCateg],
       };
       config = {
+        label: "Client",
         options: [options],
         isDisabled: true,
         value: options,
@@ -53,7 +63,6 @@ const SelectCategory = (props) => {
       setSelectConfig(config);
       //}
     }
-    //return null;
   }, [currCateg, isAdmin]);
   if (!selectConfig) {
     //console.log("Loading");
@@ -66,7 +75,7 @@ const SelectCategory = (props) => {
       <Input
         elementType="select"
         elementConfig={selectConfig}
-        label="Catégorie"
+        label="Client"
         changed={(e) => {
           if (e) {
             change(e);
@@ -92,4 +101,4 @@ const mapDispatchToProps = (dispatch) => ({
   setIsAdmin: (key) => dispatch(isAdmin(key)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectCategory);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectClient);
