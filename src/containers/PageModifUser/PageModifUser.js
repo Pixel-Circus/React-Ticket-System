@@ -80,8 +80,8 @@ const PageModifUser = (props) => {
       axios
         .post(variables.phpfolder + "update_user.php", userInfo)
         .then((response) => {
-          /* console.log("response");
-        console.log(response.data);*/
+          //console.log("response");
+          console.log(response.data);
           setTrackUserInfo(response.data.code);
           setFormLock(0);
           setFormNotice(2);
@@ -124,6 +124,10 @@ const PageModifUser = (props) => {
     if (formLock) {
       formClass += " is-locked";
     }
+    var configChbx = {};
+    if (userInfo.actif === "1") {
+      configChbx = { checked: "checked" };
+    }
     return (
       <div className="Container">
         <h1>{titrePage}</h1>
@@ -151,7 +155,7 @@ const PageModifUser = (props) => {
             elementType="checkbox"
             label="Actif?"
             value="1"
-            elementConfig={{ checked: userInfo.actif ? true : false }}
+            elementConfig={configChbx}
             changed={(e) => {
               if (e.target.checked) {
                 setUserInfo({ ...userInfo, actif: 1 });
@@ -163,7 +167,9 @@ const PageModifUser = (props) => {
           <Input
             elementType="button"
             value="Soumettre"
-            submit={handlerSubmit}
+            submit={() => {
+              handlerSubmit();
+            }}
           />
         </form>
       </div>

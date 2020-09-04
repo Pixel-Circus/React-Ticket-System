@@ -78,4 +78,4 @@ if(!$result){
 
 $results['query'] = $sql;
 
-echo json_encode($results);
+echo json_encode(utf8ize($results));

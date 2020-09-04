@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 include('config.php');
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+mysqli_set_charset($conn, "utf8");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -43,7 +44,7 @@ if($response['data']['id'] !== 'create'){
         $i++;
         $keys .= "`".$k."`";
         if($r){
-            $values .= "'".$conn->real_escape_string($r)."'";
+            $values .= "'".$conn->real_escape_string(utf8_encode($r))."'";
         }else{
             $values .= "NULL";
         }

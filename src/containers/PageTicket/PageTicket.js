@@ -210,7 +210,9 @@ const PageTicket = (props) => {
             <Input
               elementType="button"
               value="Soumettre"
-              submit={handlerSubmit}
+              submit={() => {
+                handlerSubmit();
+              }}
             />
           </form>
         </div>

@@ -1,8 +1,10 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
+mb_internal_encoding('UTF-8');
 include('config.php');
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+mysqli_set_charset($conn, "utf8");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
