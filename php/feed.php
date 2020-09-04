@@ -14,7 +14,10 @@ if(isset($_GET['clientcheck'])){
 }
 
 if(isset($_GET['usercheck'])){
-    $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['usercheck']."' AND `actif` LIKE 1";
+    $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['usercheck']."'";
+    if(isset($_GET['need_active'])){
+        $sql.="AND `actif` LIKE 1";
+    }
 }
 
 if(isset($_GET['listticketsclient'])){
@@ -25,12 +28,16 @@ if(isset($_GET['listticketsuser'])){
     $sql = "SELECT * FROM `ticket` WHERE `assigne` LIKE '".$_GET['listticketsuser']."' ORDER BY `categorie` DESC, `date_modif` DESC";
 }
 
-if(isset($_GET['listticketsall'])){
-    $sql = "SELECT * FROM `ticket` ORDER BY `categorie` DESC, `date_modif` DESC";
-}
-
 if(isset($_GET['getticketinfo'])){
     $sql = "SELECT * FROM `ticket` WHERE `code` LIKE '".$_GET['getticketinfo']."' LIMIT 1";
+}
+
+if(isset($_GET['getuserinfo'])){
+    $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['getuserinfo']."' LIMIT 1";
+}
+
+if(isset($_GET['getclientinfo'])){
+    $sql = "SELECT * FROM `clients` WHERE `code` LIKE '".$_GET['getclientinfo']."' LIMIT 1";
 }
 
 if(isset($_GET['fetch_categories'])){
@@ -40,9 +47,20 @@ if(isset($_GET['fetch_categories'])){
 if(isset($_GET['fetch_users'])){
     $sql = "SELECT * FROM `users` WHERE `actif` LIKE 1";
 }
+if(isset($_GET['fetch_all_users'])){
+    $sql = "SELECT * FROM `users` ORDER BY `actif` DESC, `nom` ASC";
+}
 
 if(isset($_GET['fetch_clients'])){
-    $sql = "SELECT * FROM `clients`";
+    $sql = "SELECT * FROM `clients` ORDER BY `code` ASC";
+}
+
+if(isset($_GET['fetch_tickets_by_clients'])){
+    $sql = "SELECT * FROM `ticket` WHERE `categorie` != 400 ORDER BY `client` ASC, `categorie` ASC";
+}
+
+if(isset($_GET['fetch_tickets_by_assignee'])){
+    $sql = "SELECT * FROM `ticket` WHERE `categorie` != 400 ORDER BY `assigne` ASC, `categorie` ASC ";
 }
 
 $result = $conn->query($sql);

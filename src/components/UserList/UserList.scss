@@ -1,0 +1,29 @@
+.UserList {
+  .ListItem {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 14px;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    color: #000;
+    text-decoration: none;
+    transition: 0.3s all ease-out;
+    &.is-inactive {
+      background: #999;
+    }
+    &:hover {
+      background: #eee;
+    }
+    > div {
+      padding: 10px;
+      box-sizing: border-box;
+      a {
+        color: #000;
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
+  }
+}

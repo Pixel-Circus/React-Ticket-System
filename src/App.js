@@ -7,6 +7,7 @@ import PageUser from "./containers/PageUser/PageUser";
 import PageTicket from "./containers/PageTicket/PageTicket";
 import PageModifClient from "./containers/PageModifClient/PageModifClient";
 import PageModifUser from "./containers/PageModifUser/PageModifUser";
+import PageOverview from "./containers/PageOverview/PageOverview";
 
 import { Router } from "@reach/router";
 
@@ -27,6 +28,7 @@ function App() {
           <PageTicket path="/ticket/:clientcode/:ticketid/" />
           <PageModifClient path="/modifclient/:code" />
           <PageModifUser path="/modifuser/:code" />
+          <PageOverview path="/admin/overview" />
         </Router>
       </div>
     </Provider>

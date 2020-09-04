@@ -11,16 +11,20 @@ const input = (props) => {
   if (props.invalid && props.shouldValidate && props.touched) {
     inputClasses.push(classes.Invalid);
   }
+  var addedClasses = "";
+  if (props.value && props.value === "px_error") {
+    addedClasses = " Invalid";
+  }
 
   switch (props.elementType) {
     case "input":
       inputElement = (
-        <div className={"Input " + classes.Input}>
+        <div className={"Input " + classes.Input + addedClasses}>
           <label className={classes.Label}>{props.label}</label>
           <input
             className={inputClasses.join(" ")}
             {...props.elementConfig}
-            value={props.value}
+            value={props.value !== "px_error" ? props.value : ""}
             onChange={props.changed}
           />
         </div>
@@ -28,12 +32,12 @@ const input = (props) => {
       break;
     case "textarea":
       inputElement = (
-        <div className={"Input " + classes.Input}>
+        <div className={"Input " + classes.Input + addedClasses}>
           <label className={classes.Label}>{props.label}</label>
           <textarea
             className={inputClasses.join(" ")}
             {...props.elementConfig}
-            value={props.value}
+            value={props.value !== "px_error" ? props.value : ""}
             onChange={props.changed}
           />
         </div>
@@ -58,7 +62,7 @@ const input = (props) => {
         return false;
       });
       inputElement = (
-        <div className={"Input " + classes.Input}>
+        <div className={"Input " + classes.Input + addedClasses}>
           <label className={classes.Label}>{props.label}</label>
           <Select
             className={inputClasses.join(" ")}
@@ -79,7 +83,7 @@ const input = (props) => {
       break;
     case "checkbox":
       inputElement = (
-        <div className={"Input " + classes.Input}>
+        <div className={"Input " + classes.Input + addedClasses}>
           <label>
             <input
               type="checkbox"
@@ -95,11 +99,11 @@ const input = (props) => {
       break;
     case "wysiwyg":
       inputElement = (
-        <div className={"Input " + classes.Input}>
+        <div className={"Input " + classes.Input + addedClasses}>
           <label>{props.label}</label>
           <Editor
             apiKey="1nnp243dek7309ia9k8n55ot1j5e3prw7kp4pb76tpro24sj"
-            initialValue={props.value}
+            initialValue={props.value !== "px_error" ? props.value : ""}
             init={{
               height: 200,
               menubar: false,
@@ -118,8 +122,12 @@ const input = (props) => {
       break;
     case "button":
       inputElement = (
-        <div className={"Input " + classes.Input}>
-          <input type="button" value={props.value} onClick={props.submit} />
+        <div className={"Input " + classes.Input + addedClasses}>
+          <input
+            type="button"
+            value={props.value !== "px_error" ? props.value : ""}
+            onClick={props.submit}
+          />
         </div>
       );
       break;
@@ -128,7 +136,7 @@ const input = (props) => {
         <input
           className={inputClasses.join(" ")}
           {...props.elementConfig}
-          value={props.value}
+          value={props.value !== "px_error" ? props.value : ""}
         />
       );
   }

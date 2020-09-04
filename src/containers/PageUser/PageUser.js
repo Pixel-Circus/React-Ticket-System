@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { navigate } from "@reach/router";
+import { navigate, Link } from "@reach/router";
 import axios from "axios";
 import variables from "./../../variables";
 
@@ -8,6 +8,8 @@ import isAdmin from "./../../actionCreator/isAdmin";
 
 import TicketList from "./../../components/TicketList/TicketList.js";
 
+import "./PageUser.scss";
+
 const PageUser = (props) => {
   const { setIsAdmin, code } = props;
   const [userInfo, setUserinfo] = useState();
@@ -15,7 +17,7 @@ const PageUser = (props) => {
   useEffect(() => {
     if (!userInfo) {
       axios
-        .get(variables.phpfolder + "feed.php?usercheck=" + code)
+        .get(variables.phpfolder + "feed.php?need_active=1&usercheck=" + code)
         .then((response) => {
           //console.log(response.data.noresults);
           if (response.data.noresults) {
@@ -49,11 +51,22 @@ const PageUser = (props) => {
     }
   }, [userTickets, userInfo, code]);
   if (userInfo) {
-    console.log(userInfo);
+    //console.log(userInfo);
     return (
-      <div className="Container">
-        <h1>User {userInfo.nom}</h1>
-        <TicketList tickets={userTickets} />
+      <div className="PageUser">
+        <div className="Container">
+          <h1>User {userInfo.nom}</h1>
+          <TicketList tickets={userTickets} />
+          <Link to={"/admin/overview"} className="Button">
+            Mode Overview
+          </Link>
+          <Link to={"/modifuser/" + code} className="Button">
+            Modifier Compte
+          </Link>
+          <Link to={"/ticket/create"} className="Button">
+            Créer Ticket
+          </Link>
+        </div>
       </div>
     );
   } else {

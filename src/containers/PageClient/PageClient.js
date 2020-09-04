@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { connect /*, useStore*/ } from "react-redux";
+import isAdmin from "./../../actionCreator/isAdmin";
 
 import axios from "axios";
 import { Link, navigate } from "@reach/router";
@@ -8,7 +10,7 @@ import TicketList from "./../../components/TicketList/TicketList.js";
 import "./PageClient.scss";
 
 const PageClient = (props) => {
-  const { code } = props;
+  const { code, isAdmin } = props;
   const [clientInfo, setClientInfo] = useState();
   const [clientTickets, setClientTickets] = useState();
   //var clientInfo = "";
@@ -48,12 +50,23 @@ const PageClient = (props) => {
     }
   }, [clientTickets, clientInfo, code]);
   //console.log(clientInfo);
-
+  const AdminButton = (props) => {
+    if (isAdmin) {
+      return (
+        <Link to={"/modifclient/" + code} className="Button">
+          Modifier Client
+        </Link>
+      );
+    } else {
+      return null;
+    }
+  };
   if (clientInfo) {
     return (
       <div className="Container PageClient">
         <h1>Client {clientInfo[0].nom}</h1>
         <TicketList tickets={clientTickets} />
+        <AdminButton />
         <Link to={"/ticket/" + code + "/create"} className="Button">
           Créer
         </Link>
@@ -64,4 +77,16 @@ const PageClient = (props) => {
   }
 };
 
-export default PageClient;
+const mapStateToProps = (state) => {
+  return {
+    isAdmin: state.isAdmin,
+    //currentCateg: state.currentCateg,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  setIsAdmin: (key) => dispatch(isAdmin(key)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageClient);
+
+//export default PageClient;

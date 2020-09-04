@@ -1,22 +1,2 @@
 .PageTicket {
-  form {
-    .Flex {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-left: -20px;
-      > div {
-        flex: 1 1 0px;
-        padding-left: 20px;
-      }
-    }
-    > div {
-      margin-bottom: 10px;
-      label {
-        display: block;
-        margin-bottom: 10px;
-      }
-    }
-  }
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, navigate } from "@reach/router";
+import { navigate } from "@reach/router";
+import { connect /*, useStore*/ } from "react-redux";
+import isAdmin from "./../../actionCreator/isAdmin";
 
 import axios from "axios";
 import variables from "./../../variables";
@@ -8,9 +10,10 @@ import TicketInfo from "./../../components/TicketInfo/TicketInfo";
 
 //import { Editor } from "@tinymce/tinymce-react";
 import "./PageTicket.scss";
+import "./../../styles/Form.scss";
 
 const PageTicket = (props) => {
-  const { ticketid, clientcode } = props;
+  const { ticketid, clientcode, isAdmin } = props;
   const [trackTicketId, setTrackTicketId] = useState(ticketid);
   const [ticketInfo, setTicketInfo] = useState("");
   const [formLock, setFormLock] = useState(false);
@@ -38,7 +41,11 @@ const PageTicket = (props) => {
             console.log(error);
           });
       } else {
-        if (clientcode) {
+        if (clientcode || isAdmin) {
+          var defaultClientCode = null;
+          if (clientcode) {
+            defaultClientCode = clientcode;
+          }
           var win = window,
             doc = document,
             docElem = doc.documentElement,
@@ -59,7 +66,7 @@ const PageTicket = (props) => {
           setTicketInfo({
             id: null,
             code: "create",
-            client: clientcode,
+            client: defaultClientCode,
             titre: "",
             description: "",
             stepbystep: "",
@@ -75,30 +82,46 @@ const PageTicket = (props) => {
       }
     }
     //console.log("effect");
-  }, [ticketInfo, ticketid, clientcode, formNotice, trackTicketId]);
+  }, [ticketInfo, ticketid, clientcode, formNotice, trackTicketId, isAdmin]);
   function handlerSubmit() {
     /*console.log("push");
     console.log(variables.phpfolder + "update_ticket.php");
     console.log(ticketInfo);*/
     setFormLock(1);
-    axios
-      .post(variables.phpfolder + "update_ticket.php", ticketInfo)
-      .then((response) => {
-        /* console.log("response");
+    var error = 0;
+    var toCheck = ["titre", "stepbystep", "technical", "description"];
+    //console.log(ticketInfo);
+    Object.keys(ticketInfo).forEach((key) => {
+      //console.log(key + " " + ticketInfo[key]);
+      if (!ticketInfo[key] && toCheck.indexOf(key) !== -1) {
+        ticketInfo[key] = "px_error";
+        error = 1;
+      }
+    });
+    if (error) {
+      setFormLock(0);
+      setFormNotice(3);
+      setTicketInfo(ticketInfo);
+    } else {
+      axios
+        .post(variables.phpfolder + "update_ticket.php", ticketInfo)
+        .then((response) => {
+          /* console.log("response");
         console.log(response.data);*/
-        setTrackTicketId(response.data.code);
-        setFormLock(0);
-        setFormNotice(2);
-        setTicketInfo("");
-        window.scroll(0, 0);
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-        setFormNotice(1);
-        setFormLock(0);
-        window.scroll(0, 0);
-      });
+          setTrackTicketId(response.data.code);
+          setFormLock(0);
+          setFormNotice(2);
+          setTicketInfo("");
+          window.scroll(0, 0);
+        })
+        .catch((error) => {
+          console.log("error");
+          console.log(error);
+          setFormNotice(1);
+          setFormLock(0);
+          window.scroll(0, 0);
+        });
+    }
   }
   if (ticketInfo) {
     var titrePage = "Création du ticket";
@@ -118,15 +141,20 @@ const PageTicket = (props) => {
             Vos modifications ont été sauvegardées
           </div>
         );
-      } else {
-        return <div></div>;
+      } else if (formNotice === 3) {
+        return (
+          <div className="notice is-error">
+            Certains champs ne sont pas remplis
+          </div>
+        );
       }
+      return <div></div>;
     };
+
     return (
       <div className="PageTicket">
         <div className="Container">
           <h1>{titrePage}</h1>
-          <Link to={"/client/" + clientcode + "/"}>Retour au client</Link>
           <ErrorMessage />
           <form className={"Form " + formClass}>
             <TicketInfo
@@ -192,5 +220,15 @@ const PageTicket = (props) => {
     return <div className="Container">Chargement...</div>;
   }
 };
+const mapStateToProps = (state) => {
+  return {
+    isAdmin: state.isAdmin,
+    //currentCateg: state.currentCateg,
+  };
+};
+const mapDispatchToProps = (dispatch) => ({
+  setIsAdmin: (key) => dispatch(isAdmin(key)),
+});
 
-export default PageTicket;
+export default connect(mapStateToProps, mapDispatchToProps)(PageTicket);
+//export default PageTicket;
