@@ -14,6 +14,10 @@ const PageHome = () => {
       return 1;
     } else if (window.location.href.indexOf("errorcreation") !== -1) {
       return 2;
+    } else if (window.location.href.indexOf("notfound") !== -1) {
+      return 3;
+    } else if (window.location.href.indexOf("cantaccess") !== -1) {
+      return 4;
     }
   });
   const redirectToClient = (event) => {
@@ -51,6 +55,14 @@ const PageHome = () => {
       return (
         <div className="notice is-error">
           Impossible de créer un ticket sans code client.
+        </div>
+      );
+    } else if (hasError === 3) {
+      return <div className="notice is-error">404 - Page introuvable</div>;
+    } else if (hasError === 4) {
+      return (
+        <div className="notice is-error">
+          403 - Vous n'avez pas accès à cette page
         </div>
       );
     } else {

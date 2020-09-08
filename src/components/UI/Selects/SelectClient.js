@@ -24,12 +24,12 @@ const SelectClient = (props) => {
           response.data.results.map((e) => {
             //console.log(e);
             options.push({
-              value: e.code,
+              value: e.id,
               label: e.nom,
             });
             if (currCateg) {
-              if (string_to_slug(currCateg) === string_to_slug(e.code)) {
-                value = { value: e.code, label: e.nom };
+              if (string_to_slug(currCateg) === string_to_slug(e.id)) {
+                value = { value: e.id, label: e.nom };
               }
             }
             return null;
