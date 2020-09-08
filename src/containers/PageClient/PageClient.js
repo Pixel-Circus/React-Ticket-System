@@ -14,8 +14,16 @@ const PageClient = (props) => {
   const [clientInfo, setClientInfo] = useState();
   const [clientTickets, setClientTickets] = useState();
   //var clientInfo = "";
+  if (!isNaN(code)) {
+    console.log(variables.phpfolder + "feed.php?clientgetbyid=" + code);
+    axios
+      .get(variables.phpfolder + "feed.php?clientgetbyid=" + code)
+      .then((response) => {
+        navigate("/client/" + response.data.results[0].code);
+      });
+  }
   useEffect(() => {
-    if (!clientInfo) {
+    if (!clientInfo && isNaN(code)) {
       axios
         .get(variables.phpfolder + "feed.php?clientcheck=" + code)
         .then((response) => {
@@ -35,10 +43,15 @@ const PageClient = (props) => {
     }
   }, [clientInfo, code]);
   useEffect(() => {
-    if (!clientTickets) {
-      //console.log(variables.phpfolder + "feed.php?listticketsclient=" + code);
+    if (!clientTickets && clientInfo && isNaN(code)) {
+      console.log(
+        variables.phpfolder + "feed.php?listticketsclient=" + clientInfo[0].id
+      );
+      console.log(clientInfo);
       axios
-        .get(variables.phpfolder + "feed.php?listticketsclient=" + code)
+        .get(
+          variables.phpfolder + "feed.php?listticketsclient=" + clientInfo[0].id
+        )
         .then((response) => {
           setClientTickets(response.data.results);
           //console.log(response.data.results);

@@ -18,7 +18,7 @@ const UserList = (props) => {
         <div>
           {nom} ({code})
         </div>
-        <div class="Links">
+        <div className="Links">
           {active ? (
             <Link to={"/" + type + "/" + code}>
               <FontAwesomeIcon icon={Icons.faEye} />
@@ -41,7 +41,7 @@ const UserList = (props) => {
       if (u.actif === "0") {
         active = 0;
       }
-      return <ListItem code={u.code} nom={u.nom} active={active} />;
+      return <ListItem code={u.code} nom={u.nom} active={active} key={u.id} />;
     });
   }
   return <div className="UserList">{list}</div>;

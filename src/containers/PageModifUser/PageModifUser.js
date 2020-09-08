@@ -3,6 +3,7 @@ import { navigate } from "@reach/router";
 import axios from "axios";
 import variables from "./../../variables";
 import Input from "./../../components/UI/Input/Input";
+import { Link } from "@reach/router";
 
 import { connect /*, useStore*/ } from "react-redux";
 import isAdmin from "./../../actionCreator/isAdmin";
@@ -130,7 +131,18 @@ const PageModifUser = (props) => {
     }
     return (
       <div className="Container">
-        <h1>{titrePage}</h1>
+        <div className="Flex">
+          <h1>{titrePage}</h1>
+          <div>
+            <Link to={"/user/" + code} className="Button">
+              Retourner au user
+            </Link>
+            &nbsp;
+            <Link to={"/admin/overview/"} className="Button">
+              Retourner au overview
+            </Link>
+          </div>
+        </div>
         <ErrorMessage />
         <form className={"Form " + formClass}>
           <Input

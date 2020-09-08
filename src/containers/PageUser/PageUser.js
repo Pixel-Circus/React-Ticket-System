@@ -14,8 +14,16 @@ const PageUser = (props) => {
   const { setIsAdmin, code } = props;
   const [userInfo, setUserinfo] = useState();
   const [userTickets, setUserTickets] = useState();
+  if (!isNaN(code)) {
+    console.log(variables.phpfolder + "feed.php?clientgetbyid=" + code);
+    axios
+      .get(variables.phpfolder + "feed.php?usergetbyid=" + code)
+      .then((response) => {
+        navigate("/user/" + response.data.results[0].code);
+      });
+  }
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo && isNaN(code)) {
       axios
         .get(variables.phpfolder + "feed.php?need_active=1&usercheck=" + code)
         .then((response) => {
@@ -36,10 +44,11 @@ const PageUser = (props) => {
     }
   }, [setIsAdmin, code, userInfo]);
   useEffect(() => {
-    if (!userTickets) {
+    if (!userTickets && userInfo && isNaN(code)) {
       //console.log(variables.phpfolder + "feed.php?listticketsclient=" + code);
+      console.log(userInfo);
       axios
-        .get(variables.phpfolder + "feed.php?listticketsuser=" + code)
+        .get(variables.phpfolder + "feed.php?listticketsuser=" + userInfo.id)
         .then((response) => {
           setUserTickets(response.data.results);
           //console.log(response.data.results);

@@ -12,12 +12,13 @@ import TicketListBySeparator from "./../../components/TicketListBySeparator/Tick
 import "./PageOverview.scss";
 
 const PageOverview = (props) => {
+  var maxTimer = 30;
   const { isAdmin } = props;
   const [listClients, setListClients] = useState("");
   const [listUsers, setListUsers] = useState("");
   const [listTicketsByClients, setTicketsByClients] = useState();
   const [listTicketsByUser, setTicketsByUser] = useState();
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(maxTimer);
   if (!isAdmin) {
     navigate("/?cantaccess=1");
   }
@@ -26,7 +27,7 @@ const PageOverview = (props) => {
   useEffect(() => {
     setTimeout(() => {
       if (timer === 0) {
-        setTimer(60);
+        setTimer(maxTimer);
         setListClients("");
         setListUsers("");
         setTicketsByClients("");
@@ -35,7 +36,7 @@ const PageOverview = (props) => {
         setTimer(timer - 1);
       }
     }, 1000);
-  }, [timer]);
+  }, [timer, maxTimer]);
 
   //LIST CLIENTS
   useEffect(() => {
@@ -121,19 +122,24 @@ const PageOverview = (props) => {
     }
   }, [listTicketsByUser]);
   return (
-    <div class="PageOverview">
+    <div className="PageOverview">
       <div className="Refresh">Prochaine Update: {timer}s</div>
-      <div class="Flex">
+      <div className="Flex">
         <div className="Clients">
           <h2>Clients</h2>
           <TicketListBySeparator
             splitter="client"
             list={listTicketsByClients}
+            categs={listClients}
           />
         </div>
         <div className="Users">
           <h2>Users</h2>
-          <TicketListBySeparator splitter="assigne" list={listTicketsByUser} />
+          <TicketListBySeparator
+            splitter="assigne"
+            list={listTicketsByUser}
+            categs={listUsers}
+          />
         </div>
         <div className="Lists">
           <div>

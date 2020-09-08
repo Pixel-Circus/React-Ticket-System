@@ -42,7 +42,7 @@ const TicketInfo = (props) => {
               currCateg={ticketInfo.categorie}
               change={categchange}
             />
-            <span>&nbsp;</span>
+            <Link to="/admin/overview">Retour à l'overview</Link>
           </div>
           <div>
             <SelectUser currCateg={ticketInfo.assigne} change={assignechange} />

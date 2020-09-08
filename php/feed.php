@@ -12,6 +12,10 @@ $results = array();
 if(isset($_GET['clientcheck'])){
     $sql = "SELECT * FROM `clients` WHERE `code` LIKE '".$_GET['clientcheck']."'";
 }
+if(isset($_GET['clientgetbyid'])){
+    $sql = "SELECT * FROM `clients` WHERE `id` LIKE '".$_GET['clientgetbyid']."' LIMIT 1";
+}
+
 
 if(isset($_GET['usercheck'])){
     $sql = "SELECT * FROM `users` WHERE `code` LIKE '".$_GET['usercheck']."'";
@@ -19,6 +23,10 @@ if(isset($_GET['usercheck'])){
         $sql.="AND `actif` LIKE 1";
     }
 }
+if(isset($_GET['usergetbyid'])){
+    $sql = "SELECT * FROM `users` WHERE `id` LIKE '".$_GET['usergetbyid']."' LIMIT 1";
+}
+
 
 if(isset($_GET['listticketsclient'])){
     $sql = "SELECT * FROM `ticket` WHERE `client` LIKE '".$_GET['listticketsclient']."' ORDER BY `categorie` ASC, `date_modif` DESC";
