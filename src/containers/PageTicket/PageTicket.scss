@@ -1,2 +1,16 @@
 .PageTicket {
+  .InputImage {
+    display: flex;
+    justify-content: space-between;
+    .Input {
+      max-width: 200px;
+      width: 100%;
+    }
+    .Images {
+      max-width: calc(100% - 220px);
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+  }
 }
