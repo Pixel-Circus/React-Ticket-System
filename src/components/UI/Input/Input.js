@@ -3,6 +3,7 @@ import Select from "react-select";
 // Style
 import classes from "./Input.scss";
 import { Editor } from "@tinymce/tinymce-react";
+import ImageUploader from "react-images-upload";
 
 const input = (props) => {
   let inputElement = null;
@@ -119,6 +120,29 @@ const input = (props) => {
           />
         </div>
       );
+      break;
+    case "image":
+      inputElement = (
+        <div className={"Input " + classes.Input + addedClasses}>
+          <label>{props.label}</label>
+          <ImageUploader
+            withIcon={true}
+            buttonText="Choisissez une image..."
+            label="Taille fichier max: 5mb; Formats acceptés: jpg, gif, png"
+            value={props.value !== "px_error" ? props.value : ""}
+            onChange={props.changed}
+            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+            maxFileSize={5242880}
+            singleImage={true}
+          />
+        </div>
+      );
+      /*inputElement = (
+        <div className={"Input " + classes.Input + addedClasses}>
+          <label>{props.label}</label>
+          <input type="file" onChange={props.changed} />
+        </div>
+      );*/
       break;
     case "button":
       inputElement = (

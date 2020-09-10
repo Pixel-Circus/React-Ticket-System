@@ -7,6 +7,8 @@ import axios from "axios";
 import variables from "./../../variables";
 import Input from "./../../components/UI/Input/Input";
 import TicketInfo from "./../../components/TicketInfo/TicketInfo";
+import ImageList from "./../../components/ImageList/ImageList";
+import string_to_slug from "./../../functions/string_to_slugs";
 
 //import { Editor } from "@tinymce/tinymce-react";
 import "./PageTicket.scss";
@@ -31,6 +33,14 @@ const PageTicket = (props) => {
               console.log("No client");
               navigate("/?ticketnotfound=" + trackTicketId);
             } else {
+              //console.log(response.data.results[0]);
+              if (response.data.results[0].image) {
+                response.data.results[0].image = response.data.results[0].image.split(
+                  ","
+                );
+              } else {
+                response.data.results[0].image = [];
+              }
               //console.log(response.data.results[0]);
               setTicketInfo(response.data.results[0]);
               //console.log("test");
@@ -75,6 +85,7 @@ const PageTicket = (props) => {
             date_modif: null,
             assigne: null,
             categorie: 100,
+            image: [],
           });
         } else {
           navigate("/?errorcreation=1");
@@ -83,6 +94,20 @@ const PageTicket = (props) => {
     }
     //console.log("effect");
   }, [ticketInfo, ticketid, clientcode, formNotice, trackTicketId, isAdmin]);
+  function imageRemoveHandler(image) {
+    console.log(image);
+    var currState = [];
+    ticketInfo.image.map((i) => {
+      if (i !== image) {
+        currState.push(i);
+      }
+      return null;
+    });
+    setTicketInfo({
+      ...ticketInfo,
+      image: currState,
+    });
+  }
   function handlerSubmit() {
     /*console.log("push");
     console.log(variables.phpfolder + "update_ticket.php");
@@ -103,11 +128,19 @@ const PageTicket = (props) => {
       setFormNotice(3);
       setTicketInfo(ticketInfo);
     } else {
+      //console.log(ticketInfo.image);
+      //console.log(typeof ticketInfo.image);
+      var newTicketInfo = ticketInfo;
+      if (typeof newTicketInfo.image == "object") {
+        newTicketInfo.image = newTicketInfo.image.toString();
+        console.log(newTicketInfo.image);
+      }
+      console.log(newTicketInfo);
       axios
-        .post(variables.phpfolder + "update_ticket.php", ticketInfo)
+        .post(variables.phpfolder + "update_ticket.php", newTicketInfo)
         .then((response) => {
-          /* console.log("response");
-        console.log(response.data);*/
+          //console.log("response");
+          //console.log(response.data);
           setTrackTicketId(response.data.code);
           setFormLock(0);
           setFormNotice(2);
@@ -194,10 +227,59 @@ const PageTicket = (props) => {
               label="Étape par étape"
               value={ticketInfo.stepbystep}
               changed={(content, editor) => {
+                console.log(ticketInfo);
                 ticketInfo.stepbystep = content;
                 setTicketInfo(ticketInfo);
               }}
             />
+            <div class="InputImage">
+              <Input
+                elementType="image"
+                label="Image du bogue"
+                value=""
+                changed={(e) => {
+                  //console.log(e[0].name);
+                  var formData = new FormData();
+                  formData.append("image", e[0]);
+                  //formData.append("ticket", ticketInfo.code);
+
+                  var filename = e[0].name.split(".");
+                  axios
+                    .post(
+                      variables.phpfolder +
+                        "upload_file.php?code=" +
+                        ticketInfo.code +
+                        "&name=" +
+                        string_to_slug(filename[0]) +
+                        "." +
+                        filename.pop(),
+
+                      formData,
+                      {
+                        headers: {
+                          "Content-Type": "multipart/form-data",
+                        },
+                      }
+                    )
+                    .then((response) => {
+                      var currState = ticketInfo.image;
+                      console.log(currState);
+                      currState.push(response.data);
+                      setTicketInfo({
+                        ...ticketInfo,
+                        image: currState,
+                      });
+                    });
+                }}
+              />
+              <div className="Images">
+                <ImageList
+                  images={ticketInfo.image}
+                  remover={imageRemoveHandler}
+                  code={ticketInfo.code}
+                />
+              </div>
+            </div>
             <Input
               elementType="textarea"
               label="Informations techniques (Modifier seulement si bogue sur un poste différent)"

@@ -3,7 +3,9 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 include('config.php');
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-mysqli_set_charset($conn, "utf8");
+if ( $_SERVER['SERVER_NAME'] != 'tickets.pixelcircus.d3v' ) {
+    mysqli_set_charset($conn, "utf8");
+}
 date_default_timezone_set("America/Toronto");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -11,7 +13,6 @@ if ($conn->connect_error) {
 
 $response = [];
 $response['data'] = json_decode(file_get_contents("php://input"),true);
-
 
 $sql = '';
 if($response['data']['code'] !== 'create'){
@@ -60,7 +61,6 @@ if($response['data']['code'] !== 'create'){
     }
     $sql = "INSERT INTO `ticket` (".$keys.") VALUES (".$values.")";
 }
-
 
 $result = $conn->query($sql);
 if(!$result){
