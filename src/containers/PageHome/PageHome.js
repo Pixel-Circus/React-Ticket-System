@@ -90,10 +90,10 @@ const PageHome = () => {
       <div
         className="Button"
         onClick={() => {
-          if (i18n.language === "fr") {
-            i18n.changeLanguage("en");
-          } else {
+          if (i18n.language === "en") {
             i18n.changeLanguage("fr");
+          } else {
+            i18n.changeLanguage("en");
           }
         }}
         style={{

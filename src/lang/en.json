@@ -2,5 +2,28 @@
   "Système de Tickets Pixel Circus": "Pixel Circus' Ticket System",
   "Changer la langue": "Change Language",
   "Votre Code Client": "Your client code",
-  "Soumettre": "Submit"
+  "Soumettre": "Submit",
+  "Créer": "Create",
+  "Modifier Client": "Modify Client",
+  "categories": {
+    "Catégorie": "Category",
+    "100": "Awaiting",
+    "200": "Assigned",
+    "300": "Answer for client",
+    "400": "Closed"
+  },
+  "Titre": "Title",
+  "Date Début": "Creation date",
+  "Date modification": "Modification date",
+  "Création du ticket": "Ticket creation",
+  "Modification du ticket": "Ticket modification:",
+  "Description": "Description",
+  "Étape par étape": "Step by step",
+  "Image du bogue": "Bug image",
+  "Informations techniques (Modifier seulement si bogue sur un poste différent)": "Technical information",
+  "Soumis": "Submitted:",
+  "Modification": "Modified:",
+  "Retour à l'overview": "Back to overview",
+  "Retour à l'assigné": "Back to assigned",
+  "Retour au Client": "Return to client"
 }

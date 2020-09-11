@@ -1,8 +1,10 @@
 import React from "react";
 
 import TicketListItem from "./../TicketListItem/TicketListItem";
+import { useTranslation } from "react-i18next";
 
 const TicketList = (props) => {
+  const { t /*, i18n*/ } = useTranslation();
   const { tickets } = props;
   //console.log(tickets);
   var ticketlist = <div></div>;
@@ -30,10 +32,10 @@ const TicketList = (props) => {
         key="0"
         //id={ticket.id}
         code={false}
-        titre="Titre"
-        date_debut="Date Début"
-        date_modif="Date modification"
-        categorie="Catégorie"
+        titre={t("Titre")}
+        date_debut={t("Date Début")}
+        date_modif={t("Date modification")}
+        categorie={t("Catégorie")}
       />
       {ticketlist}
     </div>

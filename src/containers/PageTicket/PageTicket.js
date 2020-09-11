@@ -15,7 +15,10 @@ import string_to_slug from "./../../functions/string_to_slugs";
 import "./PageTicket.scss";
 import "./../../styles/Form.scss";
 
+import { useTranslation } from "react-i18next";
+
 const PageTicket = (props) => {
+  const { t /*, i18n*/ } = useTranslation();
   const { ticketid, clientcode, isAdmin } = props;
   const [trackTicketId, setTrackTicketId] = useState(ticketid);
   const [ticketInfo, setTicketInfo] = useState("");
@@ -177,9 +180,9 @@ const PageTicket = (props) => {
     }
   }
   if (ticketInfo) {
-    var titrePage = "Création du ticket";
+    var titrePage = t("Création du ticket");
     if (ticketInfo.code !== "create") {
-      titrePage = "Modification du ticket " + ticketInfo.code;
+      titrePage = t("Modification du ticket") + " " + ticketInfo.code;
     }
     var formClass = "";
     if (formLock) {
@@ -224,9 +227,9 @@ const PageTicket = (props) => {
             />
             <Input
               elementType="input"
-              label="Titre"
+              label={t("Titre")}
               value={ticketInfo.titre}
-              placeholder="Titre"
+              placeholder={t("Titre")}
               changed={(e) => {
                 console.log(ticketInfo);
                 setTicketInfo({ ...ticketInfo, titre: e.target.value });
@@ -234,7 +237,7 @@ const PageTicket = (props) => {
             />
             <Input
               elementType="wysiwyg"
-              label="Description"
+              label={t("Description")}
               value={ticketInfo.description}
               changed={(content, editor) => {
                 ticketInfo.description = content;
@@ -244,7 +247,7 @@ const PageTicket = (props) => {
             />
             <Input
               elementType="wysiwyg"
-              label="Étape par étape"
+              label={t("Étape par étape")}
               value={ticketInfo.stepbystep}
               changed={(content, editor) => {
                 console.log(ticketInfo);
@@ -255,7 +258,7 @@ const PageTicket = (props) => {
             <div className="InputImage">
               <Input
                 elementType="image"
-                label="Image du bogue"
+                label={t("Image du bogue")}
                 value=""
                 changed={(e) => {
                   //console.log(e[0].name);
@@ -302,7 +305,9 @@ const PageTicket = (props) => {
             </div>
             <Input
               elementType="textarea"
-              label="Informations techniques (Modifier seulement si bogue sur un poste différent)"
+              label={t(
+                "Informations techniques (Modifier seulement si bogue sur un poste différent)"
+              )}
               value={ticketInfo.technical}
               changed={(e) => {
                 setTicketInfo({ ...ticketInfo, technical: e.target.value });
@@ -311,7 +316,7 @@ const PageTicket = (props) => {
 
             <Input
               elementType="button"
-              value="Soumettre"
+              value={t("Soumettre")}
               submit={() => {
                 handlerSubmit();
               }}
@@ -321,7 +326,7 @@ const PageTicket = (props) => {
       </div>
     );
   } else {
-    return <div className="Container">Chargement...</div>;
+    return <div className="Container">{t("Chargement...")}</div>;
   }
 };
 const mapStateToProps = (state) => {

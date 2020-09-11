@@ -1,3 +1,12 @@
 {
-  "Système de Tickets Pixel Circus": "Système de Tickets Pixel Circus"
+  "Système de Tickets Pixel Circus": "Système de Tickets Pixel Circus",
+  "categories": {
+    "Catégorie": "Catégorie",
+    "100": "En attente",
+    "200": "Assigné",
+    "300": "Réponse pour client",
+    "400": "Fermé"
+  },
+  "Soumis": "Soumis :",
+  "Modification": "Modification :"
 }

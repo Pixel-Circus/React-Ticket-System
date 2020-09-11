@@ -9,7 +9,11 @@ import variables from "./../../variables";
 import TicketList from "./../../components/TicketList/TicketList.js";
 import "./PageClient.scss";
 
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
+
 const PageClient = (props) => {
+  const { t /*, i18n*/ } = useTranslation();
   const { code, isAdmin } = props;
   const [clientInfo, setClientInfo] = useState();
   const [clientTickets, setClientTickets] = useState();
@@ -67,7 +71,7 @@ const PageClient = (props) => {
     if (isAdmin) {
       return (
         <Link to={"/modifclient/" + code} className="Button">
-          Modifier Client
+          {t("Modifier Client")}
         </Link>
       );
     } else {
@@ -80,8 +84,23 @@ const PageClient = (props) => {
         <h1>Client {clientInfo[0].nom}</h1>
         <TicketList tickets={clientTickets} />
         <AdminButton />
+        <div
+          className="Button"
+          onClick={() => {
+            if (i18n.language === "en") {
+              i18n.changeLanguage("fr");
+            } else {
+              i18n.changeLanguage("en");
+            }
+          }}
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          {t("Changer la langue")}
+        </div>
         <Link to={"/ticket/" + code + "/create"} className="Button">
-          Créer
+          {t("Créer")}
         </Link>
       </div>
     );

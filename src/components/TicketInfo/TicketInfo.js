@@ -7,7 +7,10 @@ import SelectUser from "./../../components/UI/Selects/SelectUser";
 import SelectClient from "./../../components/UI/Selects/SelectClient";
 import variables from "./../../variables";
 
+import { useTranslation } from "react-i18next";
+
 const TicketInfo = (props) => {
+  const { t /*, i18n*/ } = useTranslation();
   const {
     isAdmin,
     ticketInfo,
@@ -18,7 +21,9 @@ const TicketInfo = (props) => {
   const LinkAssigne = (props) => {
     if (ticketInfo.assigne) {
       return (
-        <Link to={"/user/" + ticketInfo.assigne + "/"}>Retour à l'assigné</Link>
+        <Link to={"/user/" + ticketInfo.assigne + "/"}>
+          {t("Retour à l'assigné")}
+        </Link>
       );
     } else {
       return <span>&nbsp;</span>;
@@ -27,7 +32,9 @@ const TicketInfo = (props) => {
   const LinkClient = (props) => {
     if (ticketInfo.client) {
       return (
-        <Link to={"/client/" + ticketInfo.client + "/"}>Retour au Client</Link>
+        <Link to={"/client/" + ticketInfo.client + "/"}>
+          {t("Retour au Client")}
+        </Link>
       );
     } else {
       return <span>&nbsp;</span>;
@@ -42,7 +49,7 @@ const TicketInfo = (props) => {
               currCateg={ticketInfo.categorie}
               change={categchange}
             />
-            <Link to="/admin/overview">Retour à l'overview</Link>
+            <Link to="/admin/overview">{t("Retour à l'overview")}</Link>
           </div>
           <div>
             <SelectUser currCateg={ticketInfo.assigne} change={assignechange} />
@@ -55,11 +62,11 @@ const TicketInfo = (props) => {
         </div>
         <div className="Flex">
           <div className="">
-            <b>Soumis : </b>
+            <b>{t("Soumis")} </b>
             {ticketInfo.date_debut ? ticketInfo.date_debut : "N/A"}
           </div>
           <div className="">
-            <b>Modification : </b>
+            <b>{t("Modification")} </b>
             {ticketInfo.date_modif ? ticketInfo.date_modif : "N/A"}
           </div>
         </div>
