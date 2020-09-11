@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { navigate } from "@reach/router";
 import { connect /*, useStore*/ } from "react-redux";
 import isAdmin from "./../../actionCreator/isAdmin";
+import modalImages from "../../actionCreator/modalImages";
 
 import axios from "axios";
 import variables from "./../../variables";
@@ -232,7 +233,7 @@ const PageTicket = (props) => {
                 setTicketInfo(ticketInfo);
               }}
             />
-            <div class="InputImage">
+            <div className="InputImage">
               <Input
                 elementType="image"
                 label="Image du bogue"
@@ -307,11 +308,12 @@ const PageTicket = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAdmin: state.isAdmin,
-    //currentCateg: state.currentCateg,
+    modalImages: state.modalImages,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   setIsAdmin: (key) => dispatch(isAdmin(key)),
+  setModalImages: (key) => dispatch(modalImages(key)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageTicket);

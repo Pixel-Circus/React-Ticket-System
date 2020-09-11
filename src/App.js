@@ -8,6 +8,7 @@ import PageTicket from "./containers/PageTicket/PageTicket";
 import PageModifClient from "./containers/PageModifClient/PageModifClient";
 import PageModifUser from "./containers/PageModifUser/PageModifUser";
 import PageOverview from "./containers/PageOverview/PageOverview";
+import ModalImages from "./components/ModalImages/ModalImages";
 
 import { Router /*, navigate*/ } from "@reach/router";
 
@@ -24,6 +25,7 @@ const NotFound = () => {
 function App() {
   return (
     <Provider store={store}>
+      <ModalImages />
       <div className="App">
         <Router>
           <PageHome path="/" />
