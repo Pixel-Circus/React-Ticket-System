@@ -46,7 +46,7 @@ const PageUser = (props) => {
   useEffect(() => {
     if (!userTickets && userInfo && isNaN(code)) {
       //console.log(variables.phpfolder + "feed.php?listticketsclient=" + code);
-      console.log(userInfo);
+      //console.log(userInfo);
       axios
         .get(variables.phpfolder + "feed.php?listticketsuser=" + userInfo.id)
         .then((response) => {

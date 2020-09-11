@@ -95,6 +95,25 @@ const PageTicket = (props) => {
     }
     //console.log("effect");
   }, [ticketInfo, ticketid, clientcode, formNotice, trackTicketId, isAdmin]);
+  useEffect(() => {
+    //console.log(parseFloat(ticketInfo.client));
+    if (
+      isNaN(parseFloat(ticketInfo.client)) &&
+      ticketInfo.client !== undefined &&
+      ticketInfo.client !== null
+    ) {
+      /*console.log("passed client code");
+      console.log(
+        variables.phpfolder + "feed.php?clientcheck=" + ticketInfo.client
+      );*/
+      axios
+        .get(variables.phpfolder + "feed.php?clientcheck=" + ticketInfo.client)
+        .then((response) => {
+          //console.log(response.data.results[0].id);
+          setTicketInfo({ ...ticketInfo, client: response.data.results[0].id });
+        });
+    }
+  }, [ticketInfo]);
   function imageRemoveHandler(image) {
     console.log(image);
     var currState = [];
@@ -264,7 +283,7 @@ const PageTicket = (props) => {
                     )
                     .then((response) => {
                       var currState = ticketInfo.image;
-                      console.log(currState);
+                      //console.log(currState);
                       currState.push(response.data);
                       setTicketInfo({
                         ...ticketInfo,

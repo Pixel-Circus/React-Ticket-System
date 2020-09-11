@@ -44,10 +44,10 @@ const PageClient = (props) => {
   }, [clientInfo, code]);
   useEffect(() => {
     if (!clientTickets && clientInfo && isNaN(code)) {
-      console.log(
+      /*console.log(
         variables.phpfolder + "feed.php?listticketsclient=" + clientInfo[0].id
       );
-      console.log(clientInfo);
+      console.log(clientInfo);*/
       axios
         .get(
           variables.phpfolder + "feed.php?listticketsclient=" + clientInfo[0].id

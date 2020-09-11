@@ -22,9 +22,9 @@ const PageModifClient = (props) => {
     }
     if (!userInfo) {
       if (trackUserInfo !== "create" && trackUserInfo) {
-        console.log(
+        /*console.log(
           variables.phpfolder + "feed.php?getclientinfo=" + trackUserInfo
-        );
+        );*/
         axios
           .get(variables.phpfolder + "feed.php?getclientinfo=" + trackUserInfo)
           .then((response) => {
@@ -82,7 +82,7 @@ const PageModifClient = (props) => {
         .post(variables.phpfolder + "update_client.php", userInfo)
         .then((response) => {
           // console.log("response");
-          console.log(response.data);
+          //console.log(response.data);
           setTrackUserInfo(response.data.code);
           setFormLock(0);
           setFormNotice(2);

@@ -21,19 +21,19 @@ const PageHome = () => {
     }
   });
   const redirectToClient = (event) => {
-    console.log("test");
+    //console.log("test");
     //var clientcode = document.getElementById('clientcode').val();
     if (clientcode) {
-      console.log(variables.phpfolder + "feed.php?clientcheck=" + clientcode);
+      //console.log(variables.phpfolder + "feed.php?clientcheck=" + clientcode);
       axios
         .get(variables.phpfolder + "feed.php?clientcheck=" + clientcode)
         .then((response) => {
-          console.log(response.data.noresults);
+          //console.log(response.data.noresults);
           if (response.data.noresults) {
             console.log("No client");
             setHasError(1);
           } else {
-            console.log("test");
+            //console.log("test");
             navigate("/client/" + clientcode);
           }
         })
