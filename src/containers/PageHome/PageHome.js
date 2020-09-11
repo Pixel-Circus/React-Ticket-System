@@ -4,10 +4,13 @@ import React, { useState } from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
 import variables from "./../../variables";
+import { useTranslation } from "react-i18next";
 
 import "./PageHome.scss";
+import i18n from "../../i18n";
 
 const PageHome = () => {
+  const { t /*, i18n*/ } = useTranslation();
   const [clientcode, setClientCode] = useState("");
   const [hasError, setHasError] = useState(() => {
     if (window.location.href.indexOf("codenotfound") !== -1) {
@@ -73,17 +76,33 @@ const PageHome = () => {
 
   return (
     <div className="Container PageHome">
-      <h1>Système de Tickets Pixel&nbsp;Circus</h1>
+      <h1>{t("Système de Tickets Pixel Circus")}</h1>
       <ErrorMessage />
       <form onSubmit={redirectToClient}>
         <input
           type="text"
           id="clientcode"
           onChange={inputChangedHandler}
-          placeholder="Votre Code Client"
+          placeholder={t("Votre Code Client")}
         />
-        <input type="submit" value="Soumettre" />
+        <input type="submit" value={t("Soumettre")} />
       </form>
+      <div
+        className="Button"
+        onClick={() => {
+          if (i18n.language === "fr") {
+            i18n.changeLanguage("en");
+          } else {
+            i18n.changeLanguage("fr");
+          }
+        }}
+        style={{
+          marginTop: "10px",
+          cursor: "pointer",
+        }}
+      >
+        {t("Changer la langue")}
+      </div>
     </div>
   );
 };
