@@ -140,7 +140,7 @@ const PageTicket = (props) => {
         .post(variables.phpfolder + "update_ticket.php", newTicketInfo)
         .then((response) => {
           //console.log("response");
-          //console.log(response.data);
+          console.log(response.data);
           setTrackTicketId(response.data.code);
           setFormLock(0);
           setFormNotice(2);

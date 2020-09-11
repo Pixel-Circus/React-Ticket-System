@@ -60,6 +60,15 @@ if($response['data']['code'] !== 'create'){
         //$sql .= " `".$k."` = '".$conn->real_escape_string($r)."' ";
     }
     $sql = "INSERT INTO `ticket` (".$keys.") VALUES (".$values.")";
+    mkdir('../uploads/'.$response['data']['code'].'/');
+    $images = explode(',',$response['data']['image']);
+    if($images){
+        //var_dump($images);
+        foreach($images as $i){
+            rename('../uploads/create/'.$i,'../uploads/'.$response['data']['code'].'/'.$i);
+        }
+    }
+    //rename('../uploads/create/','../uploads/'.$response['data']['code'].'/');
 }
 
 $result = $conn->query($sql);
